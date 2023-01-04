@@ -47,8 +47,10 @@ def initServerCommands(instanceIp):
         sshClient.connect(hostname=instanceIp, username="ubuntu", pkey=key)
 
         # Execute a command(cmd) after connecting/ssh to an instance
-        stdin, stdout, stderr = sshClient.exec_command("screen -dmS minecraft bash -c 'sudo java " + Config.MEMORY_ALLOCATION + "-jar server.jar nogui'")
+        stdin, stdout, stderr = sshClient.exec_command("/home/ubuntu/start-server.sh")
         print("COMMAND EXECUTED")
+        print(stdout)
+        print(stderr)
         # close the client connection once the job is done
         sshClient.close()
 
@@ -65,7 +67,7 @@ def initServerMC():
     inputPass = request.form['pass']
     returnData = {}
 
-    message = "Password Incorrect!"
+    message = "Невірний пароль!"
 
     if inputPass == Config.SERVER_PASSWORD:
         #Instantiate server here or return ip address if already running
@@ -104,7 +106,7 @@ def manageServer(client):
             #SETUP MULTIPROCESSING HERE INSTEAD OF REDIS
             returnString = startServer(client)
         elif stateName == 'running':
-            returnString = 'IP: ' + instance['PublicIpAddress']
+            returnString = 'Сервер працює! IP: ' + instance['PublicIpAddress'] + ":25565"
         else:
             returnString = 'ERROR'
     return returnString
@@ -140,7 +142,7 @@ def startServer(client):
         print("\n")
         
     ipAddress = instance['PublicIpAddress']
-    returnString = 'Server is starting, this may take a few minutes.\nIP: ' + ipAddress
+    returnString = 'Сервер запускається і буде доступним за кілька хвилин. IP: ' + ipAddress + ":25565"
     #SETUP MULTIPROCESSING HERE INSTEAD OF REDIS
     p = Process(target=serverWaitOk, args=(ipAddress, client))
     p.start()
