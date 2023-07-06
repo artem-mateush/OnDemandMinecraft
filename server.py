@@ -43,11 +43,11 @@ def serverWaitOk(instanceIp, client):
 def initServerCommands(instanceIp):
     # Connect/ssh to an instance
     try:
-        # Here 'ubuntu' is user name and 'instance_ip' is public IP of EC2
-        sshClient.connect(hostname=instanceIp, username="ubuntu", pkey=key)
+        # Here 'ec2-user' is user name and 'instance_ip' is public IP of EC2
+        sshClient.connect(hostname=instanceIp, username="ec2-user", pkey=key)
 
         # Execute a command(cmd) after connecting/ssh to an instance
-        stdin, stdout, stderr = sshClient.exec_command("/home/ubuntu/start-server.sh")
+        stdin, stdout, stderr = sshClient.exec_command("/home/ec2-user/start-server.sh")
         print("COMMAND EXECUTED")
         print(stdout)
         print(stderr)
