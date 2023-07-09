@@ -54,7 +54,7 @@ def initServerCommands(instanceIp):
         # close the client connection once the job is done
         sshClient.close()
 
-    except e:
+    except Exception as e:
         print('Error running server commands')
         print(e)
 #Main endpoint for loading the webpage
